@@ -10,12 +10,13 @@
 
 @implementation PollenCount
 
--(PollenCount *) getPollenData
+-(PollenCount*)getPollenData:(NSString*)area :(NSString*)zip
 {
     
-    // TODO: make API call for current location
+    // TODO: make API call for current location using zip
     
-    self.locationName = @"San Francisco";
+    self.locationName = area;
+    self.zip = zip;
     self.pollenStrength = @"medium";
     self.pollenValue = @"2.6";
     

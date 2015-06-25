@@ -11,9 +11,10 @@
 @interface PollenCount : NSObject
 
 @property NSString *locationName;
+@property NSString *zip;
 @property NSString *pollenStrength;
 @property NSString *pollenValue;
 
--(PollenCount *) getPollenData;
+-(PollenCount*)getPollenData:(NSString*)area :(NSString*)zip;
 
 @end

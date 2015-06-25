@@ -7,10 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+@import CoreLocation;
+#import <MobileCoreServices/MobileCoreServices.h>
 @import SpriteKit;
 
-@interface ViewController : UIViewController
-
+@interface ViewController : UIViewController<CLLocationManagerDelegate>
+{
+    CLLocationManager *locationManager;
+    CLLocation *currentLocation;
+}
 
 @end
 

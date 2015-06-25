@@ -21,8 +21,9 @@
 		53D0D3E31B3C8C4B007A47BB /* BokehMyParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = 53D0D3E11B3C8C4B007A47BB /* BokehMyParticle.sks */; };
 		53D0D3E61B3C8C63007A47BB /* spark.png in Resources */ = {isa = PBXBuildFile; fileRef = 53D0D3E51B3C8C63007A47BB /* spark.png */; };
 		53D0D3E91B3C8E0A007A47BB /* ParticleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D0D3E81B3C8E0A007A47BB /* ParticleScene.m */; };
-		53D0D3EB1B3C9AC0007A47BB /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D0D3EA1B3C9AC0007A47BB /* MapKit.framework */; };
 		53D0D3EE1B3CA6DA007A47BB /* PollenCount.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D0D3ED1B3CA6DA007A47BB /* PollenCount.m */; };
+		53D0D3F51B3CB4DA007A47BB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D0D3F41B3CB4DA007A47BB /* MobileCoreServices.framework */; };
+		53D0D3F61B3CB58F007A47BB /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D0D3F21B3CB49F007A47BB /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		53D0D3EA1B3C9AC0007A47BB /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		53D0D3EC1B3CA6DA007A47BB /* PollenCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PollenCount.h; sourceTree = "<group>"; };
 		53D0D3ED1B3CA6DA007A47BB /* PollenCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PollenCount.m; sourceTree = "<group>"; };
+		53D0D3F21B3CB49F007A47BB /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		53D0D3F41B3CB4DA007A47BB /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		DAB812381C6C30D932848A30 /* Pods-polln.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-polln.debug.xcconfig"; path = "Pods/Target Support Files/Pods-polln/Pods-polln.debug.xcconfig"; sourceTree = "<group>"; };
 		EC1633BB579DEE173A510137 /* Pods_polln.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_polln.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -69,7 +72,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				53D0D3EB1B3C9AC0007A47BB /* MapKit.framework in Frameworks */,
+				53D0D3F61B3CB58F007A47BB /* CoreLocation.framework in Frameworks */,
+				53D0D3F51B3CB4DA007A47BB /* MobileCoreServices.framework in Frameworks */,
 				33D34B87F7E8E7C11109F6CD /* Pods_polln.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +194,8 @@
 		B30914D8A33EDD2D3BF5C820 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				53D0D3F41B3CB4DA007A47BB /* MobileCoreServices.framework */,
+				53D0D3F21B3CB49F007A47BB /* CoreLocation.framework */,
 				53D0D3EA1B3C9AC0007A47BB /* MapKit.framework */,
 				EC1633BB579DEE173A510137 /* Pods_polln.framework */,
 			);
