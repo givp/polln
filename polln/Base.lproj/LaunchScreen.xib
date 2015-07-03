@@ -27,6 +27,6 @@
         </view>
     </objects>
     <resources>
-        <image name="pollen.png" width="250" height="250"/>
+        <image name="pollen.png" width="171" height="171"/>
     </resources>
 </document>
