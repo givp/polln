@@ -26,6 +26,8 @@
 @property (nonatomic, strong) CMAltimeter *altimeterManager;
 @property (strong, nonatomic) IBOutlet UIView *pressureView;
 - (IBAction)debugAnim:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *pressureLabel;
+@property (weak, nonatomic) IBOutlet UIView *pressureIndicatorLine;
 
 @end
 

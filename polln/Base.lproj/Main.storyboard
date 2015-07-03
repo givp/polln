@@ -43,15 +43,19 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view alpha="0.24999999999999967" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rb8-cM-8iv" userLabel="Pressure view">
-                                        <rect key="frame" x="0.0" y="479" width="375" height="188"/>
+                                    <view hidden="YES" alpha="0.24999999999999967" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rb8-cM-8iv" userLabel="Pressure view">
+                                        <rect key="frame" x="0.0" y="603" width="375" height="64"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="230 kPa" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfY-6J-6R1">
-                                                <rect key="frame" x="8" y="-6" width="146" height="44"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="-" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gfY-6J-6R1">
+                                                <rect key="frame" x="5" y="-2" width="218" height="44"/>
                                                 <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="18"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qTA-8k-dHT" userLabel="Pressure Indicator">
+                                                <rect key="frame" x="0.0" y="33" width="2" height="51"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
@@ -72,6 +76,8 @@
                         <outlet property="pollenStrength" destination="Qba-2O-Tum" id="iNs-I7-2Fa"/>
                         <outlet property="pollenValue" destination="gXu-1J-mCO" id="NrU-ow-dZz"/>
                         <outlet property="pollenZip" destination="mzs-fH-gAB" id="nxz-Mo-Xkp"/>
+                        <outlet property="pressureIndicatorLine" destination="qTA-8k-dHT" id="IDc-hC-aQZ"/>
+                        <outlet property="pressureLabel" destination="gfY-6J-6R1" id="m4Y-dj-Dvc"/>
                         <outlet property="pressureView" destination="Rb8-cM-8iv" id="Lc3-bu-ocs"/>
                     </connections>
                 </viewController>

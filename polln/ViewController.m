@@ -19,18 +19,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     // get location
-    locationManager = [[CLLocationManager alloc] init];
-    locationManager.delegate = self;
-    [locationManager startUpdatingLocation];
+    [self initLocation];
 
     // add particles
-    ParticleScene * scene = [ParticleScene sceneWithSize:_particleScene.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-    self.particleScene.allowsTransparency = YES;
-    scene.backgroundColor = [UIColor clearColor];
-    [self.particleScene presentScene:scene];
+    [self addParticles];
     
     // get pressure
     [self checkPressure];
@@ -41,45 +35,100 @@
     
 }
 
+// init location
+- (void)initLocation
+{
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    
+    if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)])
+    {
+        [locationManager requestWhenInUseAuthorization];
+    }
+    
+    [locationManager startUpdatingLocation];
+}
+
+// add particles
+- (void)addParticles
+{
+    ParticleScene * scene = [ParticleScene sceneWithSize:_particleScene.bounds.size];
+    scene.scaleMode = SKSceneScaleModeAspectFill;
+    self.particleScene.allowsTransparency = YES;
+    scene.backgroundColor = [UIColor clearColor];
+    [self.particleScene presentScene:scene];
+}
+
 // do init anim
 - (void)performAnims
 {
-    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
-    anim.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 400, 400)];
-    [self.pollenStrength.layer pop_addAnimation:anim forKey:@"size"];
     
-    POPSpringAnimation *anim2 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
-    anim2.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, -40, -40)];
-    [self.pollenValue.layer pop_addAnimation:anim2 forKey:@"size2"];
+    POPSpringAnimation *anim1 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+    anim1.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 40, 40)];
+    [self.pollenStrength.layer pop_addAnimation:anim1 forKey:@"anim1"];
     
-    POPSpringAnimation *anim3 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
-    anim3.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 400, 400)];
-    [self.pollenLocation.layer pop_addAnimation:anim3 forKey:@"size3"];
-    
-    POPSpringAnimation *anim4 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
-    anim4.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, -40, -40)];
-    [self.pollenZip.layer pop_addAnimation:anim4 forKey:@"size4"];
-    
-    //POPSpringAnimation *anim5 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
-    //anim5.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 5000, 5000)];
-    //[self.pressureView.layer pop_addAnimation:anim5 forKey:@"size5"];
 }
 
 // get pressure
 - (void)checkPressure
 {
+    
     if([CMAltimeter isRelativeAltitudeAvailable]){
         self.altimeterManager = [[CMAltimeter alloc]init];
         [self.altimeterManager startRelativeAltitudeUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMAltitudeData *altitudeData, NSError *error) {
-            // This now fires properly
-            NSString *data = [NSString stringWithFormat:@"Altitude: %f %f", altitudeData.relativeAltitude.floatValue, altitudeData.pressure.floatValue];
-            NSLog(@"%@", data);
+        
+            // kill updates after first value (good enough)
+            [self.altimeterManager stopRelativeAltitudeUpdates];
+            
+            [self updatePressureIndicator:altitudeData.pressure];
         }];
-        NSLog(@"Started altimeter");
+        
     } else {
         NSLog(@"Altimeter not available");
     }
 }
+
+// update pressure indicator
+- (void) updatePressureIndicator:(NSNumber*) pressureValue
+{
+    
+    // min: 960 - max: 1060 hectopascals (hPa)
+    // scale percent = (n - min/max - min) * 100
+    // 1086 mb (32.08 inches of mercury): Highest Ever Recorded
+    // 1030 mb (30.42 inches of mercury): Strong High Pressure System
+    // 1013 mb (29.92 inches of mercury): Average Sea Level Pressure
+    // 1000 mb (29.54 inches of mercury): Typical Low Pressure System
+    // 980 mb (28.95 inches of mercury): CAT 1 Hurricane or a very intense mid-latitude cyclone
+    // 950 mb (28.06 inches of mercury): CAT 3 Hurricane
+    // 870 mb (25.70 inches of mercury): Lowest Ever Recorded (not including tornadoes)
+    
+    CGFloat pressureMin = 960.0;
+    CGFloat pressureMax = 1060.0;
+    CGFloat pressureValueFloat = [pressureValue floatValue]*10;
+    CGFloat pressurePercentage = (pressureValueFloat - pressureMin)/(pressureMax - pressureMin);
+
+    CGFloat containerWidth = self.pressureView.bounds.size.width;
+    CGFloat pressureIndicatorPosition = containerWidth * pressurePercentage;
+    
+    NSLog(@"Width: %f", containerWidth);
+    NSLog(@"Pos: %f", pressureIndicatorPosition);
+    NSLog(@"Pressure percent: %f", pressurePercentage);
+    
+    
+    self.pressureLabel.text = [NSString stringWithFormat:@"%ld hPa/mBar", [pressureValue integerValue]*10];
+    
+    self.pressureIndicatorLine.frame = CGRectOffset(self.pressureIndicatorLine.frame, pressureIndicatorPosition, 0 );
+    
+    //self.pressureLabel.frame = CGRectMake(self.pressureIndicatorLine.frame.origin.x, self.pressureLabel.frame.origin.y, self.pressureLabel.frame.size.height, self.pressureLabel.frame.size.height);
+    
+    self.pressureView.hidden = NO;
+    
+    // anim show pressure view
+    POPSpringAnimation *anim5 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+    anim5.fromValue = [NSValue valueWithCGRect:CGRectMake(self.pressureView.frame.origin.x, -2000, self.pressureView.layer.frame.size.width, self.pressureView.layer.frame.size.height)];
+    [self.pressureView.layer pop_addAnimation:anim5 forKey:@"anim5"];
+}
+
 
 // Wait for location callbacks
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
@@ -92,9 +141,6 @@
          if (!(error))
          {
              CLPlacemark *placemark = [placemarks objectAtIndex:0];
-             NSLog(@"\nCurrent Location Detected\n");
-             NSLog(@"placemark %@",placemark);
-             //NSString *locatedAt = [[placemark.addressDictionary valueForKey:@"FormattedAddressLines"] componentsJoinedByString:@", "];
              NSString *Zip = [[NSString alloc]initWithString:placemark.postalCode];
              NSString *Area = [[NSString alloc]initWithString:placemark.locality];
              NSLog(@"%@ - %@", Area, Zip);
