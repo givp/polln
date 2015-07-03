@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		33D34B87F7E8E7C11109F6CD /* Pods_polln.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC1633BB579DEE173A510137 /* Pods_polln.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		5387DBA71B44559800976BED /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5387DBA61B44559800976BED /* CoreMotion.framework */; };
 		53D0D3B71B3C89D0007A47BB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D0D3B61B3C89D0007A47BB /* main.m */; };
 		53D0D3BA1B3C89D0007A47BB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 53D0D3B91B3C89D0007A47BB /* AppDelegate.m */; };
 		53D0D3BD1B3C89D0007A47BB /* polln.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 53D0D3BB1B3C89D0007A47BB /* polln.xcdatamodeld */; };
@@ -38,6 +39,7 @@
 
 /* Begin PBXFileReference section */
 		31E0A22A269CBBBE5F2DAC59 /* Pods-polln.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-polln.release.xcconfig"; path = "Pods/Target Support Files/Pods-polln/Pods-polln.release.xcconfig"; sourceTree = "<group>"; };
+		5387DBA61B44559800976BED /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		53D0D3B11B3C89D0007A47BB /* polln.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = polln.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53D0D3B51B3C89D0007A47BB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53D0D3B61B3C89D0007A47BB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5387DBA71B44559800976BED /* CoreMotion.framework in Frameworks */,
 				53D0D3F61B3CB58F007A47BB /* CoreLocation.framework in Frameworks */,
 				53D0D3F51B3CB4DA007A47BB /* MobileCoreServices.framework in Frameworks */,
 				33D34B87F7E8E7C11109F6CD /* Pods_polln.framework in Frameworks */,
@@ -194,6 +197,7 @@
 		B30914D8A33EDD2D3BF5C820 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5387DBA61B44559800976BED /* CoreMotion.framework */,
 				53D0D3F41B3CB4DA007A47BB /* MobileCoreServices.framework */,
 				53D0D3F21B3CB49F007A47BB /* CoreLocation.framework */,
 				53D0D3EA1B3C9AC0007A47BB /* MapKit.framework */,
@@ -489,9 +493,11 @@
 			baseConfigurationReference = DAB812381C6C30D932848A30 /* Pods-polln.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = polln/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -500,6 +506,7 @@
 			baseConfigurationReference = 31E0A22A269CBBBE5F2DAC59 /* Pods-polln.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = polln/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

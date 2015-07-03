@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @import CoreLocation;
+@import CoreMotion;
 #import <MobileCoreServices/MobileCoreServices.h>
 @import SpriteKit;
 
@@ -16,6 +17,15 @@
     CLLocationManager *locationManager;
     CLLocation *currentLocation;
 }
+
+@property (weak, nonatomic) IBOutlet SKView *particleScene;
+@property (strong, nonatomic) IBOutlet UILabel *pollenLocation;
+@property (strong, nonatomic) IBOutlet UILabel *pollenStrength;
+@property (strong, nonatomic) IBOutlet UILabel *pollenValue;
+@property (strong, nonatomic) IBOutlet UILabel *pollenZip;
+@property (nonatomic, strong) CMAltimeter *altimeterManager;
+@property (strong, nonatomic) IBOutlet UIView *pressureView;
+- (IBAction)debugAnim:(id)sender;
 
 @end
 

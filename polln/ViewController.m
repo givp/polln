@@ -9,13 +9,9 @@
 #import "ViewController.h"
 #import "ParticleScene.h"
 #import "PollenCount.h"
+#import "POP/POP.h"
 
 @interface ViewController ()
-@property (weak, nonatomic) IBOutlet SKView *particleScene;
-@property (strong, nonatomic) IBOutlet UILabel *pollenLocation;
-@property (strong, nonatomic) IBOutlet UILabel *pollenStrength;
-@property (strong, nonatomic) IBOutlet UILabel *pollenValue;
-@property (strong, nonatomic) IBOutlet UILabel *pollenZip;
 
 @end
 
@@ -25,20 +21,64 @@
     [super viewDidLoad];
 
     // get location
-    // Create a location manager
     locationManager = [[CLLocationManager alloc] init];
-    // Set a delegate to receive location callbacks
     locationManager.delegate = self;
-    // Start the location manager
     [locationManager startUpdatingLocation];
 
     // add particles
     ParticleScene * scene = [ParticleScene sceneWithSize:_particleScene.bounds.size];
     scene.scaleMode = SKSceneScaleModeAspectFill;
-    _particleScene.allowsTransparency = YES;
+    self.particleScene.allowsTransparency = YES;
     scene.backgroundColor = [UIColor clearColor];
-    [_particleScene presentScene:scene];
+    [self.particleScene presentScene:scene];
     
+    // get pressure
+    [self checkPressure];
+    
+    // do anims
+    [self performAnims];
+    
+    
+}
+
+// do init anim
+- (void)performAnims
+{
+    POPSpringAnimation *anim = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+    anim.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 400, 400)];
+    [self.pollenStrength.layer pop_addAnimation:anim forKey:@"size"];
+    
+    POPSpringAnimation *anim2 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+    anim2.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, -40, -40)];
+    [self.pollenValue.layer pop_addAnimation:anim2 forKey:@"size2"];
+    
+    POPSpringAnimation *anim3 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+    anim3.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 400, 400)];
+    [self.pollenLocation.layer pop_addAnimation:anim3 forKey:@"size3"];
+    
+    POPSpringAnimation *anim4 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+    anim4.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, -40, -40)];
+    [self.pollenZip.layer pop_addAnimation:anim4 forKey:@"size4"];
+    
+    //POPSpringAnimation *anim5 = [POPSpringAnimation animationWithPropertyNamed:kPOPLayerBounds];
+    //anim5.fromValue = [NSValue valueWithCGRect:CGRectMake(0, 0, 5000, 5000)];
+    //[self.pressureView.layer pop_addAnimation:anim5 forKey:@"size5"];
+}
+
+// get pressure
+- (void)checkPressure
+{
+    if([CMAltimeter isRelativeAltitudeAvailable]){
+        self.altimeterManager = [[CMAltimeter alloc]init];
+        [self.altimeterManager startRelativeAltitudeUpdatesToQueue:[NSOperationQueue mainQueue] withHandler:^(CMAltitudeData *altitudeData, NSError *error) {
+            // This now fires properly
+            NSString *data = [NSString stringWithFormat:@"Altitude: %f %f", altitudeData.relativeAltitude.floatValue, altitudeData.pressure.floatValue];
+            NSLog(@"%@", data);
+        }];
+        NSLog(@"Started altimeter");
+    } else {
+        NSLog(@"Altimeter not available");
+    }
 }
 
 // Wait for location callbacks
@@ -62,10 +102,10 @@
              // populate data
              PollenCount *pc = [[[PollenCount alloc] init] getPollenData:Area :Zip];
              
-             _pollenLocation.text = pc.locationName;
-             _pollenStrength.text = pc.pollenStrength;
-             _pollenValue.text = pc.pollenValue;
-             _pollenZip.text = pc.zip;
+             self.pollenLocation.text = pc.locationName;
+             self.pollenStrength.text = pc.pollenStrength;
+             self.pollenValue.text = pc.pollenValue;
+             self.pollenZip.text = pc.zip;
          }
          else
          {
@@ -98,4 +138,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)debugAnim:(id)sender {
+    [self performAnims];
+}
 @end
